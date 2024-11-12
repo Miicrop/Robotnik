@@ -1,0 +1,70 @@
+joints:
+  joint_1:
+    id: 1
+    theta: 0
+    d: 0
+    a: 0
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+  
+  joint_2:
+    id: 2
+    theta: 0
+    d: 0
+    a: 0
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+
+  joint_2:
+    id: 2
+    theta: 0
+    d: 0
+    a: 0
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+
+  joint_3:
+    id: 3
+    theta: 0
+    d: 0
+    a: 0
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+
+  joint_4:
+    id: 4
+    theta: 0
+    d: 210
+    a: 0
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+
+  joint_5:
+    id: 5
+    theta: 0
+    d: 55
+    a: -90
+    alpha: 0
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
+
+  joint_6:
+    id: 6
+    theta: 0
+    d: 141
+    a: 90
+    alpha: 90
+    limit_negative: 0
+    limit_positive: 0
+    gear_ratio: 44
