@@ -3,20 +3,21 @@ import time
 import threading
 
 class SerialController:
-    def __init__(self, port="COM4", baudrate=115200):
+    def __init__(self, port="COM4", baudrate=115200, data_callback=None):
         self.serial_thread = None
         self.arduino = None
         self.port = port
         self.baudrate = baudrate
+        self.data_callback = data_callback
     
     def connect(self):
         try:
             self.arduino = serial.Serial(self.port, self.baudrate)
             time.sleep(1)
-            print("  >>  Arduino Connection successful")
             self.start_serial_thread()
+            print("  >>  Arduino Connection successful")
         except:
-            print("  >>  Arduino Connection failed")            
+            print("  >>  Could not connect Arduino")            
     
     def read_serial(self):
         while self.arduino and self.arduino.is_open:
@@ -24,6 +25,8 @@ class SerialController:
                 line = self.arduino.readline().decode("utf-8").strip()
                 if line:
                     print(f"  >>  Serial:: {line}")
+                    if self.data_callback:
+                        self.data_callback(line)
                     
             except serial.SerialException as e:
                 print(f"  >>  Serial:: Error:: {e}")
@@ -42,5 +45,8 @@ class SerialController:
             print("  >>  Serial:: Thread already running.")
         
     def send_serial(self, prefix, value):
-        command = f"{prefix}:{value}\n"
-        self.arduino.write(bytes(command), "utf-8")
+        try:
+            command = f"{prefix}:{value}\n"
+            self.arduino.write(bytes(command), "utf-8")
+        except:
+            print("  >>  Failed Sending Message: No Serial Connection")

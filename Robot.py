@@ -1,6 +1,6 @@
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 
-import MathUtils
 import Joint
 
 class Robot:
@@ -19,3 +19,14 @@ class Robot:
             T[np.abs(T) < 1e-10] = 0
             T = np.round(T, decimals=5)
         return T
+    
+    def get_current_pose(self):
+        T = self.forward_kinematics()
+
+        rotation_matrix = T[:3, :3]
+        r = R.from_matrix(rotation_matrix)
+
+        position = T[:3, 3]
+        orientation = r.as_euler("xyz", degrees=True)
+        
+        return position, orientation

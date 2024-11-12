@@ -42,8 +42,8 @@ joints:
   joint_4:
     id: 4
     theta: 0
-    d: 210
-    a: 0
+    d: 0
+    a: 210
     alpha: 0
     limit_negative: 0
     limit_positive: 0
@@ -52,9 +52,9 @@ joints:
   joint_5:
     id: 5
     theta: 0
-    d: 55
-    a: -90
-    alpha: 0
+    d: 0
+    a: 55
+    alpha: -90
     limit_negative: 0
     limit_positive: 0
     gear_ratio: 44
@@ -62,8 +62,8 @@ joints:
   joint_6:
     id: 6
     theta: 0
-    d: 141
-    a: 90
+    d: 0
+    a: 141
     alpha: 90
     limit_negative: 0
     limit_positive: 0
