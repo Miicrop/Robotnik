@@ -21,6 +21,12 @@ class RobotController:
         self.speed_controller.decrease_speed()
         self.serial_controller.send_serial("SPEED", self.speed_controller.get_speed())
         
+    def activate_tool(self):
+        self.serial_controller.send_serial("TOOL", "active")
+        
+    def deactivate_tool(self):
+        self.serial_controller.send_serial("TOOL", "inactive")
+        
     def new_program(self):
         self.program_controller.new_program()
         
@@ -86,6 +92,8 @@ class RobotController:
             joint, step = steps.split(":")
             joint = int(joint)
             step = int(step)
+            
+        #! ToDo: finish logic
         
         
     def move_joint_positive(self, joint):

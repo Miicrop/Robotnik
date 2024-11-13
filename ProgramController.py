@@ -6,6 +6,10 @@ class Command:
     def execute(self):
         raise NotImplementedError("Child Classes should implement this function")
     
+    def to_string(self):
+        raise NotImplementedError("Child Classes should implement this function")
+    
+    
         
 class HomeCommand(Command):
     def __init__(self):
@@ -13,6 +17,9 @@ class HomeCommand(Command):
     
     def execute(self):
         print("HOME")
+        
+    def to_string(self):
+        return f"{self.name}"
         
         
 class LinCommand(Command):
@@ -24,6 +31,9 @@ class LinCommand(Command):
     def execute(self):
         print("LIN")
         
+    def to_string(self):
+        return f"{self.name} :: {self.position} :: {self.orientation}"
+        
     
 class PtpCommand(Command):
     def __init__(self, position, orientation):
@@ -34,6 +44,9 @@ class PtpCommand(Command):
     def execute(self):
         print("PTP")
         
+    def to_string(self):
+        return f"{self.name} :: {self.position} :: {self.orientation}"
+        
     
 class ToolCommand(Command):
     def __init__(self, is_active):
@@ -42,6 +55,9 @@ class ToolCommand(Command):
 
     def execute(self):
         print("TOOL")
+        
+    def to_string(self):
+        return f"{self.name} :: {self.is_active}"
         
     
 
@@ -59,7 +75,6 @@ class RobotProgram:
         for cmd in self.program:
             program_data.append({
                 "type": cmd.__class__.__name__,
-                # "params": vars(cmd)
                 "params": self.command_to_dict(cmd)
             })
             

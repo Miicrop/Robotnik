@@ -111,7 +111,7 @@ class RobotView(customtkinter.CTk):
         
 
         ###########################################################################################################################
-        ##### FRAME: Selectbox :: COMMANDS #####
+        ##### FRAME: LISTBOX :: COMMANDS #####
         ###########################################################################################################################
         self.frame_listbox = customtkinter.CTkFrame(self, corner_radius=10)
         self.frame_listbox.grid(row=0, column=1, rowspan=3, padx=20, pady=(10, 0), sticky="nsew")
@@ -120,11 +120,6 @@ class RobotView(customtkinter.CTk):
         
         self.listbox = Listbox(self.frame_listbox, bg="#2B2B2B", foreground="lightblue", relief="flat")
         self.listbox.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-        self.listbox.insert(END, "P1 :: PTP :: TESTTESTTEST")
-        self.listbox.insert(END, "P2 :: PTP :: TESTTESTTEST")
-        self.listbox.insert(END, "P3 :: LIN :: TESTTESTTEST")
-        
-        
 
         
         ###########################################################################################################################
