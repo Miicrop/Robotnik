@@ -9,7 +9,7 @@ class ViewController:
         self.robot_controller = RobotController()
         
         self.filename = "program.json"
-        self.program_index = 0
+        #ToDo: self.robot_controller.program_controller.current_index should be implemented in RobotController somehow
         
         self.bind_program_buttons()
         self.bind_joint_buttons()
@@ -35,6 +35,9 @@ class ViewController:
         self.view.button_move_command_downwards.configure(
             command=self.move_listbox_item_down
             )
+        self.view.button_delete_command.configure(
+            command=self.delete_listbox_entry
+        )
         self.view.button_connect.configure(
             command=self.robot_controller.connect
             )
@@ -86,7 +89,7 @@ class ViewController:
             command=self.robot_controller.start_program
             )
         self.view.button_stop.configure(
-            command=self.robot_controller.start_program
+            command=self.robot_controller.stop_program
             )
         
         self.view.button_tool_command_active.configure(
@@ -104,13 +107,14 @@ class ViewController:
         
         
     def update_listbox_cursor(self):
-        self.view.listbox.selection_set(self.program_index)
-        self.view.listbox.activate(self.program_index)
+        self.view.listbox.selection_set(self.robot_controller.get_program_index())
+        self.view.listbox.activate(self.robot_controller.get_program_index())
     
     def get_listbox_index(self):
         selected_index = self.view.listbox.curselection()
         if selected_index:
-            self.program_index = selected_index[0]
+            self.robot_controller.set_program_index(selected_index[0])
+            return selected_index[0]
     
     def update_listbox(self):
         self.clear_listbox()
@@ -121,16 +125,22 @@ class ViewController:
         self.view.listbox.delete(0, END)
             
     def move_listbox_item_up(self):
-        self.get_listbox_index()
-        self.robot_controller.move_command_up(self.program_index)
-        self.program_index -= 1
+        index = self.get_listbox_index()
+        self.robot_controller.move_command_up(index)
+        self.robot_controller.set_program_index(index - 1)
         self.update_listbox()
         self.update_listbox_cursor()
         
     def move_listbox_item_down(self):
-        self.get_listbox_index()
-        self.robot_controller.move_command_down(self.program_index)
-        self.program_index += 1
+        index = self.get_listbox_index()
+        self.robot_controller.move_command_down(index)
+        self.robot_controller.set_program_index(index + 1)
+        self.update_listbox()
+        self.update_listbox_cursor()
+        
+    def delete_listbox_entry(self):
+        index = self.get_listbox_index()
+        self.robot_controller.delete_command(index)
         self.update_listbox()
         self.update_listbox_cursor()
         

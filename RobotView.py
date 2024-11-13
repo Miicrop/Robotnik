@@ -29,13 +29,14 @@ class RobotView(customtkinter.CTk):
         self.frame_left.grid(row=0, column=0, rowspan=3, padx=(20, 0), pady=(10, 0), sticky="nsew")
         self.frame_left.grid_columnconfigure(0, weight=1)
         self.frame_left.grid_rowconfigure(3, weight=1)
-        self.frame_left.grid_rowconfigure(6, weight=1)
+        self.frame_left.grid_rowconfigure(7, weight=1)
         
         self.button_new_program = customtkinter.CTkButton(self.frame_left, text="New Program")
         self.button_save_program = customtkinter.CTkButton(self.frame_left, text="Save Program")
         self.button_load_program = customtkinter.CTkButton(self.frame_left, text="Load Program")
         self.button_move_command_upwards = customtkinter.CTkButton(self.frame_left, text="Move Command\nupwards", fg_color="#A633FF")
         self.button_move_command_downwards = customtkinter.CTkButton(self.frame_left, text="Move Command\ndownwards", fg_color="#A633FF")
+        self.button_delete_command = customtkinter.CTkButton(self.frame_left, text="Delete Command", fg_color="#A633FF")
         self.button_connect = customtkinter.CTkButton(self.frame_left, text="Connect", width=80, fg_color="blue")
         
         self.button_new_program.grid(row=0, column=0, padx=20, pady=10)
@@ -43,7 +44,8 @@ class RobotView(customtkinter.CTk):
         self.button_load_program.grid(row=2, column=0, padx=20, pady=10)
         self.button_move_command_upwards.grid(row=4, column=0, padx=20, pady=10)
         self.button_move_command_downwards.grid(row=5, column=0, padx=20, pady=10)
-        self.button_connect.grid(row=7, column=0, padx=20, pady=20)
+        self.button_delete_command.grid(row=6, column=0, padx=20, pady=10)
+        self.button_connect.grid(row=8, column=0, padx=20, pady=20)
         
         
         ###########################################################################################################################
@@ -102,8 +104,8 @@ class RobotView(customtkinter.CTk):
         self.button_tool_deactivate.grid(row=7, column=2, padx=10, pady=20)
         self.label_tool.grid(row=7, column=1, padx=10, pady=20)
         
-        self.button_speed_decrease = customtkinter.CTkButton(self.frame_right, text="Speed:\n-", fg_color="orange", width=50)
-        self.button_speed_increase = customtkinter.CTkButton(self.frame_right, text="Speed:\n+", fg_color="orange", width=50)
+        self.button_speed_decrease = customtkinter.CTkButton(self.frame_right, text="-", fg_color="orange", width=50)
+        self.button_speed_increase = customtkinter.CTkButton(self.frame_right, text="+", fg_color="orange", width=50)
         self.label_tool = customtkinter.CTkLabel(self.frame_right, text="Speed")
         self.button_speed_decrease.grid(row=9, column=0, padx=10, pady=20)
         self.button_speed_increase.grid(row=9, column=2, padx=10, pady=20)
@@ -153,11 +155,6 @@ class RobotView(customtkinter.CTk):
         ###########################################################################################################################
         self.controller = ViewController(self)
 
-            
-
-    def sidebar_button_event(self):
-        print("sidebar_button click")
-        
 
 
 view = RobotView()

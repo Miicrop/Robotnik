@@ -26,6 +26,12 @@ class RobotController:
         
     def deactivate_tool(self):
         self.serial_controller.send_serial("TOOL", "inactive")
+    
+    def get_program_index(self):
+        return self.program_controller.program_index
+    
+    def set_program_index(self, index):
+        self.program_controller.program_index = index
         
     def new_program(self):
         self.program_controller.new_program()
@@ -42,13 +48,14 @@ class RobotController:
     def move_command_down(self, index):
         self.program_controller.move_command_down(index)
         
+    def delete_command(self, index):
+        self.program_controller.delete_command(index)
         
     def start_program(self):
-        pass
+        self.program_controller.start_program()
         
     def stop_program(self):
-        pass
-        
+        self.program_controller.stop_program()  
         
     def previous_program_step(self):
         self.program_controller.previous_program_step()

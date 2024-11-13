@@ -1,22 +1,32 @@
 import json
 import numpy as np
+import time
 
 
 class Command:
+    def __init__(self):
+        self.process_complete = False
+        
     def execute(self):
         raise NotImplementedError("Child Classes should implement this function")
     
     def to_string(self):
         raise NotImplementedError("Child Classes should implement this function")
     
+    def reset(self):
+        self.process_complete = False
+    
     
         
 class HomeCommand(Command):
     def __init__(self):
+        super().__init__()
         self.name = "HOME"
     
     def execute(self):
-        print("HOME")
+        print("HOME started")
+        #! Logic here
+        self.process_complete = True
         
     def to_string(self):
         return f"{self.name}"
@@ -24,12 +34,15 @@ class HomeCommand(Command):
         
 class LinCommand(Command):
     def __init__(self, position, orientation):
+        super().__init__()
         self.name = "LIN"
         self.position = position
         self.orientation = orientation
 
     def execute(self):
         print("LIN")
+        #! Logic here
+        self.process_complete = True
         
     def to_string(self):
         return f"{self.name} :: {self.position} :: {self.orientation}"
@@ -37,12 +50,15 @@ class LinCommand(Command):
     
 class PtpCommand(Command):
     def __init__(self, position, orientation):
+        super().__init__()
         self.name = "PTP"
         self.position = position
         self.orientation = orientation
         
     def execute(self):
         print("PTP")
+        #! Logic here
+        self.process_complete = True
         
     def to_string(self):
         return f"{self.name} :: {self.position} :: {self.orientation}"
@@ -50,11 +66,14 @@ class PtpCommand(Command):
     
 class ToolCommand(Command):
     def __init__(self, is_active):
+        super().__init__()
         self.name = "TOOL"
         self.is_active = is_active
 
     def execute(self):
         print("TOOL")
+        #! Logic here
+        self.process_complete = True
         
     def to_string(self):
         return f"{self.name} :: {self.is_active}"
@@ -64,7 +83,9 @@ class ToolCommand(Command):
 
 class RobotProgram:
     def __init__(self):
-        self.current_index = 0
+        self.is_running = False
+        self.running_index = 0
+        self.program_index = 0
         self.program = [HomeCommand(), HomeCommand()]
         
     def new_program(self):
@@ -88,6 +109,9 @@ class RobotProgram:
         
         self.program = [self.create_command_from_json(data) for data in program_data]
         print("  >>  Program loaded")
+        
+    def delete_command(self, index):
+        self.program.pop(index)
         
     def add_command(self, command):
         self.program.insert(-1, command)
@@ -137,24 +161,36 @@ class RobotProgram:
         self.program[index], self.program[target_index] = self.program[target_index], self.program[index]
         
     def start_program(self):
-        self.current_index = 0
+        print("  >>  Program started")
+        self.is_running = True
+        self.running_index = 0
         
-        for command in self.program:
-            command.execute()
-            self.current_index += 1     
+        while self.is_running and self.running_index < len(self.program):
+            current_command = self.program[self.running_index]
+            
+            if current_command.process_complete == False:
+                current_command.execute()
+                
+            if current_command.process_complete == True:
+                self.running_index += 1
+                current_command.reset()
+                
+            time.sleep(0.1)
+            
+        self.stop_program()
         
     def stop_program(self):
+        print("  >>  Program stopped")
         self.is_running = False
-        #! Logic for how to stop here?
         
     def next_program_step(self):
-        if self.current_index < len(self.program) - 1:
-            current_command = self.program[self.current_index]
+        if self.running_index <= len(self.program) - 1:
+            current_command = self.program[self.running_index]
             current_command.execute()
-            self.current_index += 1
+            self.running_index += 1
         
     def previous_program_step(self):
-        if self.current_index > 0:
-            current_command = self.program[self.current_index]
+        if self.running_index > 0:
+            current_command = self.program[self.running_index - 1]
             current_command.execute()
-            self.current_index -= 1
+            self.running_index -= 1
