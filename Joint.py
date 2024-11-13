@@ -37,7 +37,7 @@ class Joint:
         self.theta = self.deg2rad(theta)
         
     def get_theta(self):
-        return self.rad2_deg(self.theta)
+        return self.rad2deg(self.theta)
     
     def transformation_matrix(self):
         cos_theta = np.cos(self.theta)

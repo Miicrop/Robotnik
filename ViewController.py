@@ -9,7 +9,6 @@ class ViewController:
         self.robot_controller = RobotController()
         
         self.filename = "program.json"
-        #ToDo: self.robot_controller.program_controller.current_index should be implemented in RobotController somehow
         
         self.bind_program_buttons()
         self.bind_joint_buttons()
@@ -43,34 +42,18 @@ class ViewController:
             )
         
     def bind_joint_buttons(self):
-        self.view.button_a1_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(0))
-        self.view.button_a2_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(1))
-        self.view.button_a3_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(2))
-        self.view.button_a4_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(3))
-        self.view.button_a5_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(4))
-        self.view.button_a6_decrease.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_negative(5))
-        
-        self.view.button_a1_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(0))
-        self.view.button_a2_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(1))
-        self.view.button_a3_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(2))
-        self.view.button_a4_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(3))
-        self.view.button_a5_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(4))
-        self.view.button_a6_increase.bind('<ButtonPress-1>', lambda event: self.robot_controller.move_joint_positive(5))
-        
-        
-        self.view.button_a1_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(0))
-        self.view.button_a2_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(1))
-        self.view.button_a3_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(2))
-        self.view.button_a4_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(3))
-        self.view.button_a5_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(4))
-        self.view.button_a6_decrease.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(5))
+        for i, button in enumerate([
+            self.view.button_a1_decrease, self.view.button_a2_decrease, self.view.button_a3_decrease,
+            self.view.button_a4_decrease, self.view.button_a5_decrease, self.view.button_a6_decrease]):
+            button.bind('<ButtonPress-1>', lambda event, idx=i: self.robot_controller.move_joint_negative(idx))
+            button.bind('<ButtonRelease-1>', lambda event, idx=i: self.robot_controller.stop_joint(idx))
+            
+        for i, button in enumerate([
+            self.view.button_a1_increase, self.view.button_a2_increase, self.view.button_a3_increase,
+            self.view.button_a4_increase, self.view.button_a5_increase, self.view.button_a6_increase]):
+            button.bind('<ButtonPress-1>', lambda event, idx=i: self.robot_controller.move_joint_positive(idx))
+            button.bind('<ButtonRelease-1>', lambda event, idx=i: self.robot_controller.stop_joint(idx))
 
-        self.view.button_a1_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(0))
-        self.view.button_a2_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(1))
-        self.view.button_a3_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(2))
-        self.view.button_a4_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(3))
-        self.view.button_a5_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(4))
-        self.view.button_a6_increase.bind('<ButtonRelease-1>', lambda event: self.robot_controller.stop_joint(5))
         
     def bind_tool_and_speed_buttons(self):
         self.view.button_tool_activate.configure(command=self.robot_controller.activate_tool)

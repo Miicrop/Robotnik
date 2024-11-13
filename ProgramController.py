@@ -114,10 +114,10 @@ class RobotProgram:
         self.program.pop(index)
         
     def add_command(self, command):
+        #! Todo: add possibility to add command at current index
         self.program.insert(-1, command)
         
     def command_to_dict(self, cmd):
-        """Serialisiert das Command-Objekt zu einem Dictionary für JSON"""
         data = {
             "name": cmd.name,
         }

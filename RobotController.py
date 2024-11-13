@@ -3,6 +3,8 @@ from SerialController import SerialController
 from SpeedController import SpeedController
 import ProgramController
 
+# Test if Observer Pattern is of interest here
+
 class RobotController:
     def __init__(self):
         self.robot = Robot()
