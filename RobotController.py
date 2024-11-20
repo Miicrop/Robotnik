@@ -102,6 +102,8 @@ class RobotController:
             joint = int(joint)
             step = int(step)
             
+            self.robot.joints[joint].set_theta_from_steps(step)
+            
         #! ToDo: finish logic
         
         

@@ -17,6 +17,8 @@ class Joint:
         self.steps_per_revolution = 1.8
         self.step_constant = self.steps_per_revolution / self.step_mode
         self.gear_ratio = 0
+        
+        self.last_steps = 0
     
     def load_params_from_yaml(self):
         with open("joint_params.yaml", "r") as file:
@@ -32,12 +34,6 @@ class Joint:
         self.gear_ratio     = joint_data["gear_ratio"]
         
     # check if set and get is needed and which unit is wanted, eg rad, deg, steps
-        
-    def set_theta(self, theta):
-        self.theta = self.deg2rad(theta)
-        
-    def get_theta(self):
-        return self.rad2deg(self.theta)
     
     def transformation_matrix(self):
         cos_theta = np.cos(self.theta)
@@ -51,6 +47,13 @@ class Joint:
             [        0,              sin_alpha,              cos_alpha,             self.d],
             [        0,                      0,                      0,                  1]
         ])
+        
+        
+    def set_theta_from_steps(self, steps):
+        step_change = steps - self.last_steps
+        step_change_in_rad = self.steps2rad(step_change)
+        self.theta += step_change_in_rad
+        self.last_steps = steps
         
     
     def deg2rad(self, degrees):
@@ -68,4 +71,8 @@ class Joint:
         return int(steps)
     
     def steps2deg(self, steps):
-        return int(steps) / self.gear_ratio * self.step_constant
+        return int(steps) / (self.gear_ratio * self.step_constant)
+    
+    def steps2rad(self, steps):
+        radians = (steps / (self.gear_ratio * self.step_constant)) * (2 * np.pi)
+        return radians
